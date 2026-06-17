@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xpantia - Restaurante Bar Mexicano</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --verde-oscuro: #1a3d1a;
+            --verde-medio: #2d5a2d;
+            --verde-brillante: #1a5c1a;
+            --dorado: #c8a84b;
+            --dorado-claro: #e8c96a;
+            --rojo: #8b1a1a;
+            --crema: #f5f0e8;
+            --crema-oscura: #ede5d4;
+            --cafe: #6b5a3a;
+            --cafe-oscuro: #3a2e1a;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: var(--crema);
+            color: var(--cafe-oscuro);
+        }
+
+        /* ──────── HEADER ──────── */
+        .header {
+            background: var(--verde-oscuro);
+            color: var(--crema);
+            padding: 0.9rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 4px solid var(--dorado);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+        }
+        .logo-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo-header svg { width: 46px; height: 46px; }
+        .logo-header h1 {
+            font-family: Georgia, serif;
+            font-size: 22px;
+            letter-spacing: 3px;
+            color: var(--crema);
+        }
+        .logo-header span {
+            font-size: 11px;
+            color: var(--dorado);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+            margin-top: 1px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--verde-medio);
+            padding: 0.45rem 1rem;
+            border-radius: 50px;
+            font-size: 13px;
+            border: 1px solid rgba(200,168,75,0.3);
+        }
+        .user-chip i { color: var(--dorado); font-size: 16px; }
+        #userEmail {
+            max-width: 180px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .btn-logout {
+            background: var(--rojo);
+            color: white;
+            border: none;
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s, transform 0.1s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-logout:hover { background: #a52222; }
+        .btn-logout:active { transform: scale(0.97); }
+
+        /* ──────── NAV ──────── */
+        .nav {
+            background: var(--verde-medio);
+            display: flex;
+            justify-content: center;
+            gap: 0.25rem;
+            padding: 0.6rem 1rem;
+            flex-wrap: wrap;
+            border-bottom: 2px solid var(--dorado);
+        }
+        .nav a {
+            color: var(--crema);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 0.45rem 1.1rem;
+            border-radius: 8px;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, color 0.2s;
+            cursor: pointer;
+        }
+        .nav a:hover {
+            background: var(--dorado);
+            color: var(--verde-oscuro);
+        }
+
+        /* ──────── HERO ──────── */
+        .hero {
+            background: var(--verde-oscuro);
+            min-height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--crema);
+            padding: 3rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 50%, rgba(200,168,75,0.12) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(139,26,26,0.12) 0%, transparent 50%);
+        }
+        .hero-stripe {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 5px;
+            background: repeating-linear-gradient(
+                90deg,
+                var(--dorado) 0px, var(--dorado) 20px,
+                var(--rojo) 20px, var(--rojo) 40px,
+                var(--verde-brillante) 40px, var(--verde-brillante) 60px
+            );
+        }
+        .hero-content { position: relative; z-index: 1; }
+        .hero-eyebrow {
+            font-size: 11px;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--dorado);
+            margin-bottom: 1rem;
+        }
+        .hero-title {
+            font-family: Georgia, serif;
+            font-size: clamp(36px, 6vw, 64px);
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 20px rgba(0,0,0,0.4);
+        }
+        .hero-title span { color: var(--dorado); }
+        .hero-sub {
+            font-size: 16px;
+            color: rgba(245,240,232,0.8);
+            letter-spacing: 1px;
+            margin-bottom: 2rem;
+        }
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .badge {
+            background: rgba(200,168,75,0.2);
+            border: 1px solid rgba(200,168,75,0.4);
+            color: var(--dorado);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ──────── SECCIONES GENERALES ──────── */
+        .container {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+        .section {
+            padding: 4rem 0;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        .section-eyebrow {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--dorado);
+            margin-bottom: 0.5rem;
+        }
+        .section-title {
+            font-family: Georgia, serif;
+            font-size: clamp(26px, 4vw, 36px);
+            color: var(--verde-oscuro);
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--dorado);
+            margin: 0.5rem auto 0;
+            border-radius: 2px;
+        }
+        .section-sep {
+            border: none;
+            border-top: 1px solid rgba(200,168,75,0.2);
+            margin: 0;
+        }
+
+        /* ──────── MENÚ ──────── */
+        .menu-section { background: var(--crema); }
+
+        .menu-cats {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+        .cat-btn {
+            background: white;
+            border: 1.5px solid var(--dorado);
+            color: var(--cafe);
+            padding: 0.4rem 1.1rem;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .cat-btn:hover, .cat-btn.active {
+            background: var(--verde-oscuro);
+            border-color: var(--verde-oscuro);
+            color: var(--crema);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 1.5rem;
+        }
+        .menu-card {
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            transition: transform 0.25s, box-shadow 0.25s;
+            border: 1px solid rgba(200,168,75,0.15);
+        }
+        .menu-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        .card-emoji {
+            height: 180px;
+            background: linear-gradient(135deg, var(--verde-oscuro), var(--verde-medio));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 72px;
+            position: relative;
+        }
+        .card-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--rojo);
+            color: white;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            padding: 3px 8px;
+            border-radius: 50px;
+        }
+        .card-body {
+            padding: 1.25rem;
+        }
+        .card-body h3 {
+            color: var(--verde-oscuro);
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+        .card-body p {
+            color: var(--cafe);
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .precio {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dorado);
+            font-family: Georgia, serif;
+        }
+        .precio span {
+            font-size: 13px;
+            font-weight: 400;
+            color: var(--cafe);
+        }
+        .btn-pedir {
+            background: var(--verde-oscuro);
+            color: var(--crema);
+            border: none;
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+        }
+        .btn-pedir:hover { background: var(--verde-medio); }
+        .btn-pedir:active { transform: scale(0.95); }
+
+        /* ──────── BEBIDAS ──────── */
+        .bebidas-section { background: var(--verde-oscuro); }
+        .bebidas-section .section-title { color: var(--crema); }
+        .bebidas-section .section-eyebrow { color: var(--dorado); }
+
+        .drinks-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.25rem;
+        }
+        .drink-card {
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(200,168,75,0.3);
+            border-radius: 16px;
+            padding: 1.75rem 1.25rem;
+            text-align: center;
+            transition: background 0.25s, transform 0.25s;
+            cursor: default;
+        }
+        .drink-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateY(-3px);
+        }
+        .drink-icon {
+            font-size: 48px;
+            margin-bottom: 1rem;
+            color: var(--dorado);
+            display: block;
+        }
+        .drink-card h4 {
+            color: var(--crema);
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+        .drink-card p {
+            color: rgba(245,240,232,0.65);
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+        }
+        .drink-precio {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--dorado);
+            font-family: Georgia, serif;
+        }
+
+        /* ──────── PROMOCIONES ──────── */
+        .promos-section { background: var(--crema-oscura); }
+
+        .promos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .promo-card {
+            border-radius: 16px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            color: white;
+        }
+        .promo-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            opacity: 0.08;
+            background-image: repeating-linear-gradient(
+                45deg, transparent, transparent 10px,
+                rgba(255,255,255,0.5) 10px, rgba(255,255,255,0.5) 11px
+            );
+        }
+        .promo-card.rojo { background: linear-gradient(135deg, #8b1a1a, #c0392b); }
+        .promo-card.verde { background: linear-gradient(135deg, #1a3d1a, #2d5a2d); }
+        .promo-card.dorado { background: linear-gradient(135deg, #8b6914, #c8a84b); color: #1a1a1a; }
+
+        .promo-emoji { font-size: 42px; margin-bottom: 1rem; display: block; }
+        .promo-card h3 {
+            font-family: Georgia, serif;
+            font-size: 22px;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        .promo-card p {
+            font-size: 14px;
+            opacity: 0.9;
+            line-height: 1.5;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+        .promo-meta {
+            font-size: 12px;
+            opacity: 0.75;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 1rem;
+            position: relative;
+        }
+        .btn-promo {
+            margin-top: 1.25rem;
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.4);
+            color: inherit;
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            font-family: inherit;
+            position: relative;
+        }
+        .promo-card.dorado .btn-promo {
+            background: rgba(0,0,0,0.15);
+            border-color: rgba(0,0,0,0.2);
+        }
+        .btn-promo:hover { background: rgba(255,255,255,0.35); }
+        .btn-promo:active { transform: scale(0.97); }
+
+        /* ──────── NOSOTROS ──────── */
+        .nosotros-section { background: var(--crema); }
+        .nosotros-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .nosotros-text h2 {
+            font-family: Georgia, serif;
+            font-size: 30px;
+            color: var(--verde-oscuro);
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        .nosotros-text p {
+            color: var(--cafe);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+            font-size: 15px;
+        }
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--crema-oscura);
+            border-radius: 12px;
+            border-top: 3px solid var(--dorado);
+        }
+        .stat-num {
+            font-family: Georgia, serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--verde-oscuro);
+        }
+        .stat-label {
+            font-size: 11px;
+            color: var(--cafe);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        .nosotros-visual {
+            background: linear-gradient(135deg, var(--verde-oscuro), var(--verde-medio));
+            border-radius: 20px;
+            height: 340px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 100px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--dorado);
+        }
+        .nosotros-visual::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(200,168,75,0.15) 0%, transparent 60%);
+        }
+
+        /* ──────── UBICACIÓN ──────── */
+        .ubicacion-section { background: var(--crema-oscura); }
+        .ubicacion-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid rgba(200,168,75,0.2);
+        }
+        .info-card h3 {
+            font-family: Georgia, serif;
+            color: var(--verde-oscuro);
+            font-size: 20px;
+            margin-bottom: 1.25rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--dorado);
+        }
+        .info-row {
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        .info-row i {
+            color: var(--dorado);
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .info-row div { font-size: 14px; line-height: 1.6; color: var(--cafe); }
+        .info-row strong { color: var(--cafe-oscuro); display: block; font-size: 13px; }
+
+        .horarios-table { width: 100%; margin-top: 0.25rem; }
+        .horarios-table tr td {
+            font-size: 13px;
+            padding: 3px 0;
+            color: var(--cafe);
+        }
+        .horarios-table tr td:first-child { font-weight: 600; color: var(--cafe-oscuro); min-width: 140px; }
+
+        .map-placeholder {
+            background: linear-gradient(135deg, #e8e0d0, #d8ccbc);
+            border-radius: 16px;
+            height: 340px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(200,168,75,0.2);
+            gap: 1rem;
+            text-align: center;
+            padding: 2rem;
+        }
+        .map-placeholder i { font-size: 56px; color: var(--dorado); }
+        .map-placeholder h4 { color: var(--verde-oscuro); font-size: 16px; }
+        .map-placeholder p { color: var(--cafe); font-size: 13px; }
+        .btn-maps {
+            background: var(--verde-oscuro);
+            color: var(--crema);
+            border: none;
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 0.25rem;
+        }
+        .btn-maps:hover { background: var(--verde-medio); }
+
+        /* ──────── TOAST ──────── */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--verde-oscuro);
+            color: var(--crema);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+            border: 1px solid var(--dorado);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 999;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        /* ──────── FOOTER ──────── */
+        .footer {
+            background: #111;
+            color: var(--crema);
+            padding: 3rem 2rem 1rem;
+        }
+        .footer-inner {
+            max-width: 1180px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2rem;
+            padding-bottom: 2rem;
+        }
+        .footer-col h4 {
+            color: var(--dorado);
+            font-size: 13px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .footer-col p, .footer-col a {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 0.4rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-col a:hover { color: var(--dorado); }
+        .social-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .social-row a {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s, border-color 0.2s;
+            margin: 0;
+        }
+        .social-row a:hover {
+            background: var(--dorado);
+            border-color: var(--dorado);
+            color: #111;
+        }
+        .social-row a i { font-size: 18px; color: inherit; }
+        .footer-bottom {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid #222;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .footer-bottom p { font-size: 12px; color: #666; }
+        .footer-bottom .alerta {
+            font-size: 12px;
+            color: #555;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .footer-bottom .alerta i { color: var(--rojo); }
+
+        /* ──────── RESPONSIVE ──────── */
+        @media (max-width: 768px) {
+            .header { padding: 0.75rem 1rem; }
+            #userEmail { display: none; }
+            .nosotros-grid, .ubicacion-grid { grid-template-columns: 1fr; }
+            .nosotros-visual { height: 220px; font-size: 72px; }
+            .stats-row { grid-template-columns: repeat(3, 1fr); }
+            .section { padding: 2.5rem 0; }
+            .hero { min-height: 300px; }
+        }
+        @media (max-width: 480px) {
+            .nav a { font-size: 12px; padding: 0.4rem 0.75rem; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+            .btn-logout span { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ──────── HEADER ──────── -->
+    <header class="header">
+        <div class="logo-header">
+            <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="#1a3d1a" stroke="#c8a84b" stroke-width="2.5"/>
+                <text x="32" y="22" text-anchor="middle" font-size="7.5" fill="#c8a84b" font-family="Georgia,serif" font-weight="700" letter-spacing="1">RESTAURANTE</text>
+                <text x="32" y="38" text-anchor="middle" font-size="16" fill="#f5f0e8" font-family="Georgia,serif" font-weight="700" letter-spacing="2">BAR</text>
+                <path d="M14 46 Q32 42 50 46" stroke="#c8a84b" stroke-width="1.5" fill="none"/>
+            </svg>
+            <div>
+                <h1>Xpantia</h1>
+                <span>Restaurante Bar</span>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="user-chip">
+                <i class="ti ti-user-circle"></i>
+                <span id="userEmail">Bienvenido</span>
+            </div>
+            <button class="btn-logout" onclick="cerrarSesion()">
+                <i class="ti ti-logout"></i>
+                <span>Salir</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ──────── NAV ──────── -->
+    <nav class="nav">
+        <a onclick="ir('inicio')"><i class="ti ti-home"></i> Inicio</a>
+        <a onclick="ir('menu')"><i class="ti ti-tools-kitchen-2"></i> Menú</a>
+        <a onclick="ir('bebidas')"><i class="ti ti-glass"></i> Bebidas</a>
+        <a onclick="ir('promociones')"><i class="ti ti-tag"></i> Promociones</a>
+        <a onclick="ir('nosotros')"><i class="ti ti-building-store"></i> Nosotros</a>
+        <a onclick="ir('ubicacion')"><i class="ti ti-map-pin"></i> Ubicación</a>
+    </nav>
+
+    <!-- ──────── HERO ──────── -->
+    <section class="hero" id="inicio">
+        <div class="hero-stripe"></div>
+        <div class="hero-content">
+            <p class="hero-eyebrow">Restaurante Bar · Ciudad de México</p>
+            <h2 class="hero-title">Sabor <span>auténtico</span><br>de México</h2>
+            <p class="hero-sub">Tacos · Tequila · Tradición · Fiesta</p>
+            <div class="hero-badges">
+                <span class="badge">🌮 Cocina tradicional</span>
+                <span class="badge">🍹 Cócteles mexicanos</span>
+                <span class="badge">🎵 Música en vivo</span>
+                <span class="badge">⭐ Desde 2024</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ──────── MENÚ ──────── -->
+    <section class="section menu-section" id="menu">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-eyebrow">Lo mejor de México</p>
+                <h2 class="section-title">Nuestro Menú</h2>
+            </div>
+
+            <div class="menu-cats">
+                <button class="cat-btn active" onclick="filtrarMenu(this, 'todo')">Todo</button>
+                <button class="cat-btn" onclick="filtrarMenu(this, 'tacos')">Tacos</button>
+                <button class="cat-btn" onclick="filtrarMenu(this, 'platos')">Platos fuertes</button>
+                <button class="cat-btn" onclick="filtrarMenu(this, 'guarniciones')">Guarniciones</button>
+            </div>
+
+            <div class="menu-grid" id="menuGrid">
+                <!-- Tacos -->
+                <div class="menu-card" data-cat="tacos">
+                    <div class="card-emoji">🌮<span class="card-tag">Popular</span></div>
+                    <div class="card-body">
+                        <h3>Tacos al Pastor</h3>
+                        <p>Cerdo adobado con piña, cebolla, cilantro y salsa verde tatemada</p>
+                        <div class="card-footer">
+                            <div class="precio">$89 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Tacos al Pastor', 89)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card" data-cat="tacos">
+                    <div class="card-emoji">🌯</div>
+                    <div class="card-body">
+                        <h3>Tacos de Barbacoa</h3>
+                        <p>Borrego cocido lentamente en hojas de maguey, cebolla morada y salsa borracha</p>
+                        <div class="card-footer">
+                            <div class="precio">$95 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Tacos de Barbacoa', 95)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card" data-cat="tacos">
+                    <div class="card-emoji">🫔</div>
+                    <div class="card-body">
+                        <h3>Tacos de Canasta</h3>
+                        <p>Papa con chorizo, frijoles y chicharrón prensado, en tortilla de maíz azul</p>
+                        <div class="card-footer">
+                            <div class="precio">$65 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Tacos de Canasta', 65)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Platos fuertes -->
+                <div class="menu-card" data-cat="platos">
+                    <div class="card-emoji">🍲<span class="card-tag">Chef</span></div>
+                    <div class="card-body">
+                        <h3>Mole Poblano</h3>
+                        <p>Pollo de rancho bañado en mole negro con más de 20 ingredientes, arroz y tortillas</p>
+                        <div class="card-footer">
+                            <div class="precio">$159 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Mole Poblano', 159)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card" data-cat="platos">
+                    <div class="card-emoji">🌶️<span class="card-tag">Temporada</span></div>
+                    <div class="card-body">
+                        <h3>Chiles en Nogada</h3>
+                        <p>Chile poblano relleno de picadillo, capeado, salsa de nuez, granada y perejil</p>
+                        <div class="card-footer">
+                            <div class="precio">$189 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Chiles en Nogada', 189)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card" data-cat="platos">
+                    <div class="card-emoji">🫔</div>
+                    <div class="card-body">
+                        <h3>Enchiladas Suizas</h3>
+                        <p>Tortillas de maíz, pollo deshebrado, salsa verde tomatillo, queso Oaxaca y crema</p>
+                        <div class="card-footer">
+                            <div class="precio">$129 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Enchiladas Suizas', 129)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card" data-cat="platos">
+                    <div class="card-emoji">🫔</div>
+                    <div class="card-body">
+                        <h3>Quesadillas de Huitlacoche</h3>
+                        <p>Flor de calabaza, huitlacoche, quesillo Oaxaqueño y salsa roja artesanal</p>
+                        <div class="card-footer">
+                            <div class="precio">$79 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Quesadillas de Huitlacoche', 79)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Guarniciones -->
+                <div class="menu-card" data-cat="guarniciones">
+                    <div class="card-emoji">🍚</div>
+                    <div class="card-body">
+                        <h3>Arroz a la Mexicana</h3>
+                        <p>Arroz con jitomate, cebolla, ajo, zanahoria y cilantro fresco</p>
+                        <div class="card-footer">
+                            <div class="precio">$49 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Arroz Mexicano', 49)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-card" data-cat="guarniciones">
+                    <div class="card-emoji">🫘</div>
+                    <div class="card-body">
+                        <h3>Frijoles de Olla</h3>
+                        <p>Frijoles negros cocinados con epazote, chile de árbol y manteca de cerdo</p>
+                        <div class="card-footer">
+                            <div class="precio">$39 <span>MXN</span></div>
+                            <button class="btn-pedir" onclick="agregarAlPedido('Frijoles de Olla', 39)">+ Pedir</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <hr class="section-sep">
+
+    <!-- ──────── BEBIDAS ──────── -->
+    <section class="section bebidas-section" id="bebidas">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-eyebrow">Cócteles & Aguas Frescas</p>
+                <h2 class="section-title" style="color:var(--crema);">Bebidas</h2>
+            </div>
+            <div class="drinks-grid">
+                <div class="drink-card">
+                    <i class="ti ti-glass drink-icon"></i>
+                    <h4>Margarita Clásica</h4>
+                    <p>Tequila blanco, triple sec, jugo de limón fresco, sal de gusano en el borde</p>
+                    <div class="drink-precio">$89 MXN</div>
+                </div>
+                <div class="drink-card">
+                    <i class="ti ti-cactus drink-icon"></i>
+                    <h4>Paloma Rosarita</h4>
+                    <p>Tequila reposado, jugo de toronja, jarabe de hibisco, sal y limón</p>
+                    <div class="drink-precio">$79 MXN</div>
+                </div>
+                <div class="drink-card">
+                    <i class="ti ti-beer drink-icon"></i>
+                    <h4>Michelada Xpantia</h4>
+                    <p>Cerveza artesanal, clamato, limón, salsas y especias secretas de la casa</p>
+                    <div class="drink-precio">$69 MXN</div>
+                </div>
+                <div class="drink-card">
+                    <i class="ti ti-leaf drink-icon"></i>
+                    <h4>Agua de Jamaica</h4>
+                    <p>Flor de Jamaica natural, endulzada con piloncillo, servida en jarra de 1 litro</p>
+                    <div class="drink-precio">$45 MXN</div>
+                </div>
+                <div class="drink-card">
+                    <i class="ti ti-snowflake drink-icon"></i>
+                    <h4>Horchata de Almendra</h4>
+                    <p>Arroz, almendra, canela, vainilla mexicana y leche condensada (1 litro)</p>
+                    <div class="drink-precio">$50 MXN</div>
+                </div>
+                <div class="drink-card">
+                    <i class="ti ti-flame drink-icon"></i>
+                    <h4>Mezcal Negroni</h4>
+                    <p>Mezcal joven, vermut rosso, campari, naranja. Servido en las rocas</p>
+                    <div class="drink-precio">$110 MXN</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ──────── PROMOCIONES ──────── -->
+    <section class="section promos-section" id="promociones">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-eyebrow">Ofertas especiales</p>
+                <h2 class="section-title">Promociones</h2>
+            </div>
+            <div class="promos-grid">
+                <div class="promo-card rojo">
+                    <span class="promo-emoji">🌮</span>
+                    <h3>Martes de Tacos</h3>
+                    <p>2×1 en todos los tacos con la compra de cualquier bebida de la carta</p>
+                    <p class="promo-meta"><i class="ti ti-calendar"></i> Todos los martes &nbsp;·&nbsp; <i class="ti ti-clock"></i> 6pm – 10pm</p>
+                    <button class="btn-promo" onclick="toastMsg('¡Apúntalo! Visítanos el martes 🌮')">Ver condiciones</button>
+                </div>
+                <div class="promo-card verde">
+                    <span class="promo-emoji">🍹</span>
+                    <h3>Happy Hour</h3>
+                    <p>Margaritas y Palomas al 2×1 en la barra todos los días antes de las 7pm</p>
+                    <p class="promo-meta"><i class="ti ti-calendar"></i> Lunes a Viernes &nbsp;·&nbsp; <i class="ti ti-clock"></i> 4pm – 7pm</p>
+                    <button class="btn-promo" onclick="toastMsg('¡Te esperamos en Happy Hour! 🍹')">Ver condiciones</button>
+                </div>
+                <div class="promo-card dorado">
+                    <span class="promo-emoji">🎂</span>
+                    <h3>Cumpleañero VIP</h3>
+                    <p>Trae tu credencial y celebra tu cumpleaños con un postre cortesía y un shot de mezcal</p>
+                    <p class="promo-meta"><i class="ti ti-calendar"></i> Válido todo el mes &nbsp;·&nbsp; <i class="ti ti-id-badge"></i> Presentar ID</p>
+                    <button class="btn-promo" onclick="toastMsg('¡Cumpleaños feliz! 🎂 Preséntate con tu ID')">Ver condiciones</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ──────── NOSOTROS ──────── -->
+    <section class="section nosotros-section" id="nosotros">
+        <div class="container">
+            <div class="nosotros-grid">
+                <div class="nosotros-text">
+                    <p class="section-eyebrow">Nuestra historia</p>
+                    <h2>Cocina con corazón mexicano</h2>
+                    <p>Xpantia nació en 2024 con una misión simple: traer los sabores más honestos de México a cada plato. Cada receta es rescatada de las cocinas de las abuelas y adaptada con producto fresco de temporada.</p>
+                    <p>Nuestro chef y equipo viajan cada temporada a distintas regiones del país para traer técnicas, ingredientes y tradiciones que no se encuentran en los menús habituales. Comer en Xpantia es un viaje gastronómico.</p>
+                    <div class="stats-row">
+                        <div class="stat">
+                            <div class="stat-num">+40</div>
+                            <div class="stat-label">Platillos</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">2024</div>
+                            <div class="stat-label">Apertura</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-num">100%</div>
+                            <div class="stat-label">Mexicano</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nosotros-visual">🇲🇽</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ──────── UBICACIÓN ──────── -->
+    <section class="section ubicacion-section" id="ubicacion">
+        <div class="container">
+            <div class="section-header">
+                <p class="section-eyebrow">Ven a visitarnos</p>
+                <h2 class="section-title">Ubicación</h2>
+            </div>
+            <div class="ubicacion-grid">
+                <div>
+                    <div class="info-card" style="margin-bottom:1rem;">
+                        <h3><i class="ti ti-map-pin" style="color:var(--dorado);margin-right:8px;"></i>Dirección</h3>
+                        <div class="info-row">
+                            <i class="ti ti-building"></i>
+                            <div>
+                                <strong>Restaurante Xpantia</strong>
+                                Av. Revolución #123, Colonia Centro<br>
+                                CDMX, México · C.P. 06000
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <i class="ti ti-phone"></i>
+                            <div>
+                                <strong>Teléfono</strong>
+                                (55) 1234 5678
+                            </div>
+                        </div>
+                        <div class="info-row">
+                            <i class="ti ti-mail"></i>
+                            <div>
+                                <strong>Correo</strong>
+                                hola@xpantia.mx
+                            </div>
+                        </div>
+                    </div>
+                    <div class="info-card">
+                        <h3><i class="ti ti-clock" style="color:var(--dorado);margin-right:8px;"></i>Horarios</h3>
+                        <table class="horarios-table">
+                            <tr><td>Lunes – Jueves</td><td>1:00 pm – 11:00 pm</td></tr>
+                            <tr><td>Viernes</td><td>1:00 pm – 2:00 am</td></tr>
+                            <tr><td>Sábado</td><td>12:00 pm – 2:00 am</td></tr>
+                            <tr><td>Domingo</td><td>12:00 pm – 10:00 pm</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="map-placeholder">
+                    <i class="ti ti-map-2"></i>
+                    <h4>Av. Revolución #123, CDMX</h4>
+                    <p>Colonia Centro · C.P. 06000<br>A 3 min del Metro Juárez</p>
+                    <button class="btn-maps" onclick="window.open('https://maps.google.com/?q=Av+Revolución+123+CDMX','_blank')">
+                        <i class="ti ti-brand-google-maps"></i> Abrir en Google Maps
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ──────── FOOTER ──────── -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-col">
+                <h4>Xpantia</h4>
+                <p>Restaurante Bar Mexicano</p>
+                <p>Sabores auténticos desde 2024</p>
+                <p style="margin-top:0.75rem;">CDMX, México</p>
+            </div>
+            <div class="footer-col">
+                <h4>Menú</h4>
+                <a onclick="ir('menu')">Tacos</a>
+                <a onclick="ir('menu')">Platos fuertes</a>
+                <a onclick="ir('bebidas')">Cócteles</a>
+                <a onclick="ir('bebidas')">Aguas frescas</a>
+            </div>
+            <div class="footer-col">
+                <h4>Horarios</h4>
+                <p>Lun – Jue: 1pm – 11pm</p>
+                <p>Vie: 1pm – 2am</p>
+                <p>Sáb: 12pm – 2am</p>
+                <p>Dom: 12pm – 10pm</p>
+            </div>
+            <div class="footer-col">
+                <h4>Síguenos</h4>
+                <div class="social-row">
+                    <a href="#"><i class="ti ti-brand-facebook"></i></a>
+                    <a href="#"><i class="ti ti-brand-instagram"></i></a>
+                    <a href="#"><i class="ti ti-brand-tiktok"></i></a>
+                    <a href="#"><i class="ti ti-brand-x"></i></a>
+                </div>
+                <p style="margin-top:1rem;">(55) 1234 5678</p>
+                <p>hola@xpantia.mx</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 Xpantia Restaurante Bar · Todos los derechos reservados</p>
+            <p class="alerta"><i class="ti ti-forbid"></i> Prohibida la venta de alcohol a menores de 18 años</p>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="ti ti-check"></i>
+        <span id="toastMsg"></span>
+    </div>
+
+    <script>
+        // ── Verificar sesión ──
+        const usuario = sessionStorage.getItem('usuario') || localStorage.getItem('usuario');
+        if (!usuario) {
+            window.location.href = 'login.html';
+        } else {
+            document.getElementById('userEmail').textContent = usuario;
+        }
+
+        function cerrarSesion() {
+            sessionStorage.removeItem('usuario');
+            localStorage.removeItem('usuario');
+            window.location.href = 'login.html';
+        }
+
+        // ── Navegación suave ──
+        function ir(id) {
+            const el = document.getElementById(id);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ── Filtro de menú ──
+        function filtrarMenu(btn, cat) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            document.querySelectorAll('.menu-card').forEach(card => {
+                const match = cat === 'todo' || card.dataset.cat === cat;
+                card.style.display = match ? '' : 'none';
+            });
+        }
+
+        // ── Toast ──
+        let toastTimer;
+        function toastMsg(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // ── Pedir platillo ──
+        function agregarAlPedido(nombre, precio) {
+            toastMsg(`✅ ${nombre} agregado · $${precio} MXN`);
+        }
+    </script>
+</body>
+</html>
